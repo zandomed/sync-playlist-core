@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SyncPlaylistApplication<sync-playlist-sync-playlist-core>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.zandome.sync_playlist.SyncPlaylistApplication",
+            "projectName": "sync-playlist-sync-playlist-core",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
