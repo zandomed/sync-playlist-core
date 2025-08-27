@@ -1,0 +1,14 @@
+{
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#d30a0a",
+    "titleBar.inactiveBackground": "#3c0404",
+    "titleBar.activeForeground": "#ffffff",
+    "titleBar.inactiveForeground": "#ffffff"
+  },
+  "files.eol": "\n",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.": "explicit",
+    "source.removeUnusedImports": "explicit"
+  },
+}
