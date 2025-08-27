@@ -11,4 +11,5 @@
     "source.fixAll.": "explicit",
     "source.removeUnusedImports": "explicit"
   },
+  "java.configuration.updateBuildConfiguration": "interactive",
 }
