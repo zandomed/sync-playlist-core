@@ -11,12 +11,16 @@ import com.zandome.syncplaylist.user.infra.adapters.http.dtos.response.LoginHttp
 import com.zandome.syncplaylist.user.infra.adapters.http.dtos.response.RegisterHttpResponse;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -26,36 +30,32 @@ public class AuthController {
         private final LoginUserUseCase loginUserUseCase;
 
         @PostMapping("/register")
-        public ResponseEntity<RegisterHttpResponse> register(@RequestBody RegisterHttpRequest request) {
+        public ResponseEntity<RegisterHttpResponse> register(@Valid @RequestBody RegisterHttpRequest request) {
+                log.info("Registration request received for email: {}", request.email());
+                
                 RegisterUserCommand command = new RegisterUserCommand(
                                 request.name(),
                                 request.lastName(),
                                 request.email(),
                                 request.password());
 
-                try {
-                        registerUserUseCase.execute(command);
-                } catch (Exception e) {
-                        return ResponseEntity.badRequest().body(new RegisterHttpResponse(false));
-                }
-
-                RegisterHttpResponse response = new RegisterHttpResponse(
-                                true);
-
+                registerUserUseCase.execute(command);
+                
+                RegisterHttpResponse response = new RegisterHttpResponse(true);
                 return ResponseEntity.ok(response);
         }
 
         @PostMapping("/login")
-        public ResponseEntity<LoginHttpResponse> login(@RequestBody LoginHttpRequest request) {
+        public ResponseEntity<LoginHttpResponse> login(@Valid @RequestBody LoginHttpRequest request) {
+                log.info("Login request received for email: {}", request.email());
+                
                 LoginUserCommand command = new LoginUserCommand(
                                 request.email(),
                                 request.password());
 
                 AuthenticationResponse result = loginUserUseCase.execute(command);
 
-                LoginHttpResponse response = new LoginHttpResponse(
-                                result.token());
-
+                LoginHttpResponse response = new LoginHttpResponse(result.token());
                 return ResponseEntity.ok(response);
         }
 }
