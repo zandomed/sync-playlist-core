@@ -1,9 +1,12 @@
-package com.zandome.sync_playlist.domain.entity;
+package com.zandome.syncplaylist.playlist.domain.entities;
 
 import java.util.List;
 
-import com.zandome.sync_playlist.domain.vo.PlaylistImage;
+import com.zandome.syncplaylist.playlist.domain.vo.PlaylistImage;
 
+import lombok.Builder;
+
+@Builder
 public class Playlist {
     String id;
     String name;

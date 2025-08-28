@@ -1,4 +1,4 @@
-package com.zandome.sync_playlist.domain.entity;
+package com.zandome.syncplaylist.playlist.domain.entities;
 
 public class Track {
     String id;

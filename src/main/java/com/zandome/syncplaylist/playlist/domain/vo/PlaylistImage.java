@@ -1,4 +1,4 @@
-package com.zandome.sync_playlist.domain.vo;
+package com.zandome.syncplaylist.playlist.domain.vo;
 
 public class PlaylistImage {
     String url;
