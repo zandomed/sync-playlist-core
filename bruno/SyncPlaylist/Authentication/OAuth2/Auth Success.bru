@@ -1,0 +1,19 @@
+meta {
+  name: Auth Success
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{URL}}/auth/success?token=sample_jwt_token
+  body: none
+  auth: none
+}
+
+tests {
+  test("should return success response", function() {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody().status).to.equal('success');
+    expect(res.getBody().token).to.be.a('string');
+  });
+}

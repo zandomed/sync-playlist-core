@@ -4,44 +4,47 @@ import com.zandome.syncplaylist.user.application.dtos.commands.RegisterUserComma
 import com.zandome.syncplaylist.user.application.dtos.response.AuthenticationResponse;
 import com.zandome.syncplaylist.user.domain.exceptions.UserAlreadyExistsException;
 import com.zandome.syncplaylist.user.domain.model.entities.User;
+import com.zandome.syncplaylist.user.domain.model.enums.AuthProvider;
 import com.zandome.syncplaylist.shared.domain.interfaces.UseCase;
 import com.zandome.syncplaylist.user.domain.ports.repositories.UserRepository;
 import com.zandome.syncplaylist.user.domain.ports.services.JwtService;
-import com.zandome.syncplaylist.user.domain.ports.services.PasswordEncoderService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
 public class RegisterUserUseCase implements UseCase<RegisterUserCommand, AuthenticationResponse> {
 
     private final UserRepository userRepository;
-    private final PasswordEncoderService passwordEncoder;
+    private final FindUserAuthenticationUseCase findUserAuthenticationUseCase;
+    private final CreateEmailAuthenticationUseCase createEmailAuthenticationUseCase;
     private final JwtService jwtService;
 
     @Override
     public AuthenticationResponse execute(RegisterUserCommand command) {
         log.info("Attempting to register user with email: {}", command.email());
-        
-        if (userRepository.existsByEmail(command.email())) {
+
+        if (userRepository.existsByEmail(command.email()) ||
+                findUserAuthenticationUseCase.findByEmailAndProvider(command.email(), AuthProvider.EMAIL).isPresent()) {
             log.warn("Registration failed - user already exists with email: {}", command.email());
             throw new UserAlreadyExistsException(command.email());
         }
 
         try {
-            String encodedPassword = passwordEncoder.encode(command.password());
-
             User user = User.builder()
                     .name(command.name())
                     .lastName(command.lastName())
                     .email(command.email())
-                    .password(encodedPassword)
                     .build();
 
             User savedUser = userRepository.save(user);
+
+            createEmailAuthenticationUseCase.execute(savedUser.getId(), command.email(), command.password());
+
             String token = jwtService.generateToken(savedUser.getEmail());
 
             log.info("User successfully registered with email: {}", command.email());

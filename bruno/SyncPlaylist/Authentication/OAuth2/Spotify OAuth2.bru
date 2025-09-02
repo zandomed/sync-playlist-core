@@ -1,0 +1,20 @@
+meta {
+  name: Spotify OAuth2
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{URL}}/auth/oauth2/spotify
+  body: none
+  auth: none
+}
+
+tests {
+  test("should return OAuth2 URL for Spotify", function() {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody().authUrl).to.be.a('string');
+    expect(res.getBody().authUrl).to.contain('/oauth2/authorization/spotify');
+    expect(res.getBody().provider).to.equal('spotify');
+  });
+}

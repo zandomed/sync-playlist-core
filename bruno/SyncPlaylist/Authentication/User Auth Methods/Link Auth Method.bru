@@ -1,0 +1,22 @@
+meta {
+  name: Link Auth Method
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{URL}}/auth/link/google?userId=user123&email=john.doe@gmail.com&providerId=google123
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{authToken}}
+}
+
+tests {
+  test("should link auth method successfully", function() {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody().success).to.be.true;
+  });
+}

@@ -14,7 +14,7 @@ public class UserMongoMapper {
                 .name(user.getName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                .password(user.getPassword())
+                .profilePictureUrl(user.getProfilePictureUrl())
                 .build();
     }
 
@@ -24,7 +24,7 @@ public class UserMongoMapper {
                 .name(document.getName())
                 .lastName(document.getLastName())
                 .email(document.getEmail())
-                .password(document.getPassword())
+                .profilePictureUrl(document.getProfilePictureUrl())
                 .build();
     }
 }

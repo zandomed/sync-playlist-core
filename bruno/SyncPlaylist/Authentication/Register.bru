@@ -1,23 +1,27 @@
 meta {
   name: Register
   type: http
-  seq: 2
+  seq: 1
 }
 
 post {
   url: {{URL}}/auth/register
   body: json
-  auth: inherit
+  auth: none
 }
 
 body:json {
   {
-    "email": "miguel@tsest.com",
-    "password": "1234",
-    "name": "test"
+    "name": "John",
+    "lastName": "Doe", 
+    "email": "john.doe@example.com",
+    "password": "password123"
   }
 }
 
-settings {
-  encodeUrl: true
+tests {
+  test("should register user successfully", function() {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody().success).to.be.true;
+  });
 }

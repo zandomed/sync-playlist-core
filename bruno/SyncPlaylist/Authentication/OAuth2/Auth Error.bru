@@ -1,0 +1,19 @@
+meta {
+  name: Auth Error
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{URL}}/auth/error
+  body: none
+  auth: none
+}
+
+tests {
+  test("should return error response", function() {
+    expect(res.getStatus()).to.equal(200);
+    expect(res.getBody().status).to.equal('error');
+    expect(res.getBody().message).to.equal('Authentication failed');
+  });
+}

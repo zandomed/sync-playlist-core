@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 @Data
@@ -14,10 +15,13 @@ public class UserDocument {
     private String id;
 
     private String name;
+    @Field("last_name")
+
     private String lastName;
 
     @Indexed(unique = true)
     private String email;
 
-    private String password;
+    @Field("profile_picture_url")
+    private String profilePictureUrl;
 }

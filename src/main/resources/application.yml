@@ -8,6 +8,53 @@ spring:
       username: root
       password: secret
       database: syncplaylist
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:your-google-client-id}
+            client-secret: ${GOOGLE_CLIENT_SECRET:your-google-client-secret}
+            scope:
+              - openid
+              - profile
+              - email
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            authorization-grant-type: authorization_code
+            client-name: Google
+          apple:
+            client-id: ${APPLE_CLIENT_ID:your-apple-client-id}
+            client-secret: ${APPLE_CLIENT_SECRET:your-apple-client-secret}
+            scope:
+              - openid
+              - name
+              - email
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            authorization-grant-type: authorization_code
+            client-name: Apple
+            provider: apple
+          spotify:
+            client-id: ${SPOTIFY_CLIENT_ID:your-spotify-client-id}
+            client-secret: ${SPOTIFY_CLIENT_SECRET:your-spotify-client-secret}
+            scope:
+              - user-read-email
+              - user-read-private
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            authorization-grant-type: authorization_code
+            client-name: Spotify
+            provider: spotify
+        provider:
+          apple:
+            authorization-uri: https://appleid.apple.com/auth/authorize
+            token-uri: https://appleid.apple.com/auth/token
+            user-info-uri: https://appleid.apple.com/auth/userinfo
+            user-name-attribute: sub
+            jwk-set-uri: https://appleid.apple.com/auth/keys
+          spotify:
+            authorization-uri: https://accounts.spotify.com/authorize
+            token-uri: https://accounts.spotify.com/api/token
+            user-info-uri: https://api.spotify.com/v1/me
+            user-name-attribute: id
 
 server:
   port: 9000
@@ -18,3 +65,8 @@ app:
     expiration: 86400000
     issuer: sync-playlist
     algorithm: HS256
+
+logging:
+    level:
+      root: INFO
+      com.zandome.syncplaylist: DEBUG
