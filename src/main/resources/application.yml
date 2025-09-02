@@ -3,18 +3,18 @@ spring:
     name: sync-playlist
   data:
     mongodb:
-      host: ${MONGODB_HOST:localhost}
-      port: ${MONGODB_PORT:27017}
-      username: ${MONGODB_USERNAME:root}
-      password: ${MONGODB_PASSWORD:secret}
-      database: ${MONGODB_DATABASE:syncplaylist}
+      host: localhost
+      port: 27017
+      username: root
+      password: secret
+      database: syncplaylist
 
 server:
-  port: ${SERVER_PORT:9000}
+  port: 9000
 
 app:
   jwt:
-    secret: ${JWT_SECRET:mySecretKey1234567890123456789012345678901234567890}
-    expiration: ${JWT_EXPIRATION:86400000}
-    issuer: ${JWT_ISSUER:sync-playlist}
-    algorithm: ${JWT_ALGORITHM:HS256}
+    secret: mySecretKey1234567890123456789012345678901234567890
+    expiration: 86400000
+    issuer: sync-playlist
+    algorithm: HS256
